@@ -62,7 +62,7 @@ class CeleryInspector(KeyDefaultDict):
         Make it easy to get the return value from an inspect method.
         Use it like a dictionary, with the desired method as the key.
         """
-        allowed_methods = ['active_queues', 'active', 'reserved', 'scheduled']
+        allowed_methods = ['active_queues', 'active', 'reserved', 'scheduled', 'registered']
         inspect = self.app.control.inspect()
 
         def get_inspect_value(method):
@@ -109,7 +109,7 @@ class CeleryInspector(KeyDefaultDict):
 
         This is called lazily to avoid running long methods when not needed.
         """
-        if status not in ['active', 'reserved', 'scheduled']:
+        if status not in ['active', 'reserved', 'scheduled', 'registered']:
             raise KeyError('Invalid task status: {}'.format(status))
 
         tasks = chain.from_iterable(self.inspect[status].values())
